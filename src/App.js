@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Subject from './Subject';
-import Synonym from './Synonym';
 import Add from './Add';
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/subject" element={<Subject />}></Route>
-                <Route path="/synonym" element={<Synonym />}></Route>
                 <Route path="/add" element={<Add />}></Route>
             </Routes>
         </BrowserRouter>

@@ -1,6 +1,13 @@
 import { db } from './firebase';
 import { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
+import {
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+} from 'firebase/firestore';
 
 export default function Add() {
     const [dict, setDict] = useState({
@@ -35,17 +42,49 @@ export default function Add() {
             setDict({ ...dict, subject: sub });
         }
     };
-    const addWordToDb = () => {
-        addDoc(dbRef, dict)
-            .then(() => {
-                alert('Successfully added to database!');
-            })
-            .catch((err) => {
-                alert(err);
-            });
+
+    const addWordToDb = async () => {
+        const a = await getDocs(dbRef);
+        const wordLists = a.docs.map((item) => {
+            return { ...item.data(), id: item.id };
+        });
+        let allSubject = wordLists.map((item) => item.subject);
+
+        if (allSubject.includes(dict.subject)) {
+            //Search for the subject in the database
+            let index = allSubject.indexOf(dict.subject);
+            let docRef = doc(db, 'ieltsSubject', wordLists[index].id);
+
+            //Update the vocabularies
+            let newVocab = [...wordLists[index].vocabularies];
+            for (let i = 0; i < dict.vocabularies.length; i++) {
+                if (!newVocab.includes(dict.vocabularies[i])) {
+                    newVocab.push(dict.vocabularies[i]);
+                }
+            }
+            await updateDoc(docRef, { vocabularies: newVocab })
+                .then(() => {
+                    alert('Update successfully!');
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        } else {
+            await addDoc(dbRef, dict)
+                .then(() => {
+                    alert('Add successfully!');
+                })
+                .catch((err) => {
+                    alert(err);
+                });
+        }
     };
     return (
         <main>
+            <Link to="/" className="navigation return">
+                Return to Home
+            </Link>
+            <br />
             <label htmlFor="subject-name">Custom subject:</label>
             <input
                 type="text"

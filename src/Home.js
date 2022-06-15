@@ -6,9 +6,6 @@ export default function Home() {
             <Link to="/subject" className="navigation">
                 Subject
             </Link>
-            <Link to="/synonym" className="navigation">
-                Synonym
-            </Link>
             <Link to="/add" className="navigation">
                 Add
             </Link>
