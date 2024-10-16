@@ -8,16 +8,20 @@ html {
     font-size: 18px;
 }
 
-.game-field {
+body {
     width: 100vw;
     height: 100vh;
-    margin: 1rem;
+    padding: 1rem;
+}
+
+.game-field {
+    width: 100%;
+    height: inherit;
     border: 1px solid black;
     display: flex;
 }
 
 .game-side {
-    
 }
 
 .rotate {
