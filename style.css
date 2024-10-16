@@ -1,0 +1,5 @@
+.game-field {
+    width: 300px;
+    height: 200px;
+    transform: rotate(90deg);
+}
